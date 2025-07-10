@@ -12,26 +12,17 @@
     <meta property="og:description" content="BBB A+ rated insulation contractor serving Denver metro. Expert spray foam and fiberglass installation. Free estimates. Call (720) 990-1332">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://insulatewithais.com/">
-    <meta property="og:image" content="https://insulatewithais.com/og-image.jpg">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Advanced Insulation Solutions - Denver Insulation Contractor">
     <meta name="twitter:description" content="BBB A+ rated insulation contractor serving Denver metro. Expert spray foam and fiberglass installation. Free estimates.">
-    <meta name="twitter:image" content="https://insulatewithais.com/twitter-card.jpg">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    
-    <!-- Web App Manifest -->
-    <link rel="manifest" href="manifest.json">
+    <!-- Simple inline favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
     
     <!-- Theme Color -->
     <meta name="theme-color" content="#2563eb">
-    
-    <!-- Apple Touch Icon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     
     <title>Advanced Insulation Solutions - Denver's Trusted Insulation Contractor | BBB A+ Rated</title>
     
@@ -43,7 +34,7 @@
     <!-- Stylesheets -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="./styles.css?v=1.0">
+    <link rel="stylesheet" href="./styles.css?v=1.1">
     
     <!-- Backup inline styles in case external CSS doesn't load -->
     <style>
@@ -60,13 +51,67 @@
         .btn-primary, .btn-secondary { padding: 1rem 2rem; margin: 0.5rem; border-radius: 50px; text-decoration: none; display: inline-block; transition: all 0.3s; }
         .btn-primary { background: white; color: #2563eb; }
         .btn-secondary { background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.5); }
+        
+        /* Critical loading screen styles */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader-circle {
+            width: 60px;
+            height: 60px;
+            border: 3px solid #e0e0e0;
+            border-top-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
+    
+    <!-- Emergency loader hide script -->
+    <script>
+        // Force hide loader after 2 seconds maximum
+        setTimeout(function() {
+            var loader = document.getElementById('loader');
+            if (loader) {
+                loader.style.display = 'none';
+            }
+        }, 2000);
+        
+        // Hide loader as soon as possible
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var loader = document.getElementById('loader');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                    }, 500);
+                }
+            }, 500);
+        });
+    </script>
 </head>
 <body>
     <!-- Loading Screen -->
-    <div id="loader" class="loader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: flex; align-items: center; justify-content: center; z-index: 9999;">
+    <div id="loader" class="loader">
         <div class="loader-content">
-            <div class="loader-circle" style="width: 60px; height: 60px; border: 3px solid #e0e0e0; border-top-color: #2563eb; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+            <div class="loader-circle"></div>
             <h2 style="color: #1e293b; font-size: 1.25rem; margin-top: 20px;">Advanced Insulation Solutions</h2>
         </div>
     </div>
@@ -372,14 +417,7 @@
         </div>
     </footer>
 
-    <!-- Add spin animation -->
-    <style>
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-    </style>
-
     <!-- Scripts -->
-    <script src="./script.js?v=1.0" defer></script>
+    <script src="./script.js?v=1.1" defer></script>
 </body>
 </html>
