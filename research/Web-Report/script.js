@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         month: 'long', 
         day: 'numeric' 
     });
-    document.getElementById('report-date').textContent = currentDate;
+    document.getElementById('report-date')?.textContent = currentDate;
     document.querySelectorAll('.report-date').forEach(el => {
         el.textContent = currentDate;
     });
@@ -21,9 +21,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize navigation
     initializeNavigation();
-
-    // Initialize charts
-    initializeCharts();
 
     // Initialize smooth scroll
     initializeSmoothScroll();
@@ -125,229 +122,6 @@ function scrollToSection(sectionId) {
     }
 }
 
-// Initialize all charts
-function initializeCharts() {
-    // Chart defaults
-    Chart.defaults.font.family = 'Inter, sans-serif';
-    Chart.defaults.color = '#64748b';
-    
-    // Engagement Chart
-    const engagementCtx = document.getElementById('engagementChart');
-    if (engagementCtx) {
-        new Chart(engagementCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [
-                    {
-                        label: 'Facebook',
-                        data: [3.8, 4.1, 4.0, 4.3, 4.2, 4.2],
-                        borderColor: '#1877f2',
-                        backgroundColor: 'rgba(24, 119, 242, 0.1)',
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Instagram',
-                        data: [5.2, 5.5, 5.8, 6.0, 6.1, 6.1],
-                        borderColor: '#e4405f',
-                        backgroundColor: 'rgba(228, 64, 95, 0.1)',
-                        tension: 0.4
-                    },
-                    {
-                        label: 'LinkedIn',
-                        data: [3.2, 3.4, 3.6, 3.7, 3.8, 3.8],
-                        borderColor: '#0077b5',
-                        backgroundColor: 'rgba(0, 119, 181, 0.1)',
-                        tension: 0.4
-                    },
-                    {
-                        label: 'Twitter',
-                        data: [2.5, 2.6, 2.8, 2.9, 2.9, 2.9],
-                        borderColor: '#1da1f2',
-                        backgroundColor: 'rgba(29, 161, 242, 0.1)',
-                        tension: 0.4
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom'
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label + ': ' + context.parsed.y + '%';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    // Traffic Chart
-    const trafficCtx = document.getElementById('trafficChart');
-    if (trafficCtx) {
-        new Chart(trafficCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Organic Traffic',
-                    data: [38000, 40000, 42000, 43500, 44000, 45000],
-                    backgroundColor: 'rgba(99, 102, 241, 0.8)',
-                    borderColor: 'rgba(99, 102, 241, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return 'Visitors: ' + context.parsed.y.toLocaleString();
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return value.toLocaleString();
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    // Sentiment Chart
-    const sentimentCtx = document.getElementById('sentimentChart');
-    if (sentimentCtx) {
-        new Chart(sentimentCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Positive', 'Neutral', 'Negative'],
-                datasets: [{
-                    data: [78, 18, 4],
-                    backgroundColor: [
-                        'rgba(16, 185, 129, 0.8)',
-                        'rgba(99, 102, 241, 0.8)',
-                        'rgba(239, 68, 68, 0.8)'
-                    ],
-                    borderColor: [
-                        'rgba(16, 185, 129, 1)',
-                        'rgba(99, 102, 241, 1)',
-                        'rgba(239, 68, 68, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': ' + context.parsed + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    // Radar Chart for Competitive Analysis
-    const radarCtx = document.getElementById('radarChart');
-    if (radarCtx) {
-        new Chart(radarCtx, {
-            type: 'radar',
-            data: {
-                labels: ['Website Traffic', 'Social Media', 'SEO', 'Reviews', 'Content', 'Brand Awareness'],
-                datasets: [
-                    {
-                        label: 'Your Brand',
-                        data: [75, 85, 76, 90, 70, 82],
-                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                        borderColor: 'rgba(99, 102, 241, 1)',
-                        pointBackgroundColor: 'rgba(99, 102, 241, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(99, 102, 241, 1)'
-                    },
-                    {
-                        label: 'Industry Average',
-                        data: [70, 75, 70, 82, 65, 75],
-                        backgroundColor: 'rgba(156, 163, 175, 0.2)',
-                        borderColor: 'rgba(156, 163, 175, 1)',
-                        pointBackgroundColor: 'rgba(156, 163, 175, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(156, 163, 175, 1)'
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                },
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 100,
-                        ticks: {
-                            stepSize: 20
-                        }
-                    }
-                }
-            }
-        });
-    }
-}
-
-// Download report function
-function downloadReport() {
-    // In a real implementation, this would generate a PDF
-    alert('Report download feature would be implemented here. This would generate a comprehensive PDF report of all findings.');
-}
-
-// Schedule consultation function
-function scheduleConsultation() {
-    // In a real implementation, this would open a scheduling modal or redirect to a booking page
-    alert('Consultation scheduling feature would be implemented here. This would allow the client to book a meeting to discuss the findings.');
-}
-
 // Add interactive hover effects
 document.addEventListener('DOMContentLoaded', function() {
     // Add ripple effect to buttons
@@ -442,6 +216,20 @@ style.textContent = `
             transform: scale(4);
             opacity: 0;
         }
+    }
+
+    .nav-cta {
+        background: #2563eb;
+        color: white !important;
+        padding: 8px 16px !important;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .nav-cta:hover {
+        background: #1d4ed8;
+        transform: translateY(-2px);
     }
 
     canvas {
