@@ -1,9 +1,24 @@
+// Force hide loader immediately if still visible after 3 seconds
+setTimeout(() => {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.style.display = 'none';
+    }
+}, 3000);
+
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', function() {
-    // Hide loader
-    setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-    }, 1500);
+    // Hide loader immediately and with timeout as backup
+    const loader = document.getElementById('loader');
+    if (loader) {
+        setTimeout(() => {
+            loader.classList.add('hidden');
+            // Fallback - completely hide if CSS transition doesn't work
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        }, 800);
+    }
 
     // Set current date
     const currentDate = new Date().toLocaleDateString('en-US', { 
@@ -11,7 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
         month: 'long', 
         day: 'numeric' 
     });
-    document.getElementById('report-date')?.textContent = currentDate;
+    
+    const reportDateEl = document.getElementById('report-date');
+    if (reportDateEl) reportDateEl.textContent = currentDate;
+    
     document.querySelectorAll('.report-date').forEach(el => {
         el.textContent = currentDate;
     });
@@ -24,6 +42,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize smooth scroll
     initializeSmoothScroll();
+});
+
+// Backup loader hide on window load
+window.addEventListener('load', function() {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        loader.style.display = 'none';
+    }
 });
 
 // Animation observer
@@ -69,6 +95,8 @@ function initializeNavigation() {
     const navbar = document.querySelector('.navbar');
     const navLinks = document.querySelectorAll('.nav-link');
     
+    if (!navbar) return;
+    
     // Scroll effect
     window.addEventListener('scroll', () => {
         if (window.scrollY > 100) {
@@ -100,7 +128,7 @@ function initializeNavigation() {
 
 // Smooth scroll
 function initializeSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^=\"#\"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
@@ -132,14 +160,17 @@ document.addEventListener('DOMContentLoaded', function() {
             ripple.classList.add('ripple');
             this.appendChild(ripple);
 
-            const x = e.clientX - e.target.offsetLeft;
-            const y = e.clientY - e.target.offsetTop;
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
 
             ripple.style.left = `${x}px`;
             ripple.style.top = `${y}px`;
 
             setTimeout(() => {
-                ripple.remove();
+                if (ripple.parentNode) {
+                    ripple.remove();
+                }
             }, 600);
         });
     });
@@ -148,19 +179,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const hero = document.querySelector('.hero');
     const heroContent = document.querySelector('.hero-content');
     
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallax = scrolled * 0.5;
-        
-        if (hero) {
+    if (hero && heroContent) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = scrolled * 0.5;
+            
             hero.style.transform = `translateY(${parallax}px)`;
-        }
-        
-        if (heroContent && scrolled < window.innerHeight) {
-            heroContent.style.opacity = 1 - (scrolled / window.innerHeight);
-            heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
-        }
-    });
+            
+            if (scrolled < window.innerHeight) {
+                heroContent.style.opacity = 1 - (scrolled / window.innerHeight);
+                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+    }
 
     // Add number counting animation
     const observerOptions = {
@@ -171,20 +202,25 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const target = entry.target;
-                const endValue = parseInt(target.textContent.replace(/\D/g, ''));
-                let startValue = 0;
-                const duration = 2000;
-                const increment = endValue / (duration / 16);
+                const text = target.textContent;
+                const numbers = text.match(/\d+/);
+                
+                if (numbers) {
+                    const endValue = parseInt(numbers[0]);
+                    let startValue = 0;
+                    const duration = 2000;
+                    const increment = endValue / (duration / 16);
 
-                const counter = setInterval(() => {
-                    startValue += increment;
-                    if (startValue >= endValue) {
-                        target.textContent = target.textContent.replace(/\d+/, endValue);
-                        clearInterval(counter);
-                    } else {
-                        target.textContent = target.textContent.replace(/\d+/, Math.floor(startValue));
-                    }
-                }, 16);
+                    const counter = setInterval(() => {
+                        startValue += increment;
+                        if (startValue >= endValue) {
+                            target.textContent = text.replace(/\d+/, endValue);
+                            clearInterval(counter);
+                        } else {
+                            target.textContent = text.replace(/\d+/, Math.floor(startValue));
+                        }
+                    }, 16);
+                }
 
                 countObserver.unobserve(target);
             }
@@ -209,6 +245,8 @@ style.textContent = `
         transform: scale(0);
         animation: ripple-animation 0.6s ease-out;
         pointer-events: none;
+        width: 20px;
+        height: 20px;
     }
 
     @keyframes ripple-animation {
@@ -219,7 +257,7 @@ style.textContent = `
     }
 
     .nav-cta {
-        background: #2563eb;
+        background: #2563eb !important;
         color: white !important;
         padding: 8px 16px !important;
         border-radius: 6px;
@@ -228,12 +266,19 @@ style.textContent = `
     }
 
     .nav-cta:hover {
-        background: #1d4ed8;
+        background: #1d4ed8 !important;
         transform: translateY(-2px);
     }
 
     canvas {
         max-height: 400px;
+    }
+    
+    /* Force hide loader styles */
+    .loader.hidden {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
     }
 `;
 document.head.appendChild(style);
