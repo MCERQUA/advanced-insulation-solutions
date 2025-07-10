@@ -1,0 +1,20 @@
+{
+  "name": "brand-presence-report",
+  "version": "1.0.0",
+  "description": "Professional Online Brand Presence Report Interface",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "build": "echo 'No build required - static site'"
+  },
+  "keywords": [
+    "brand-analysis",
+    "web-report",
+    "digital-presence",
+    "marketing-report"
+  ],
+  "author": "Your Agency Name",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}

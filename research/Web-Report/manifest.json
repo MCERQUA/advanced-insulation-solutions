@@ -1,0 +1,21 @@
+{
+  "short_name": "Brand Report",
+  "name": "Online Brand Presence Report",
+  "description": "Comprehensive analysis of your digital footprint",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#2563eb",
+  "background_color": "#ffffff"
+}

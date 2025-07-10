@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comprehensive Online Brand Presence Report - Analysis of your digital footprint, website performance, social media engagement, SEO metrics, and competitive positioning.">
+    <meta name="keywords" content="brand analysis, digital presence, website report, SEO analysis, social media analytics, competitive analysis">
+    <meta name="author" content="Your Agency Name">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Online Brand Presence Report">
+    <meta property="og:description" content="Comprehensive analysis of your digital footprint and online brand performance">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourdomain.netlify.app/">
+    <meta property="og:image" content="https://yourdomain.netlify.app/og-image.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Online Brand Presence Report">
+    <meta name="twitter:description" content="Comprehensive analysis of your digital footprint and online brand performance">
+    <meta name="twitter:image" content="https://yourdomain.netlify.app/twitter-card.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#2563eb">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    
+    <title>Online Brand Presence Report - Comprehensive Digital Analysis</title>
+    
+    <!-- Preconnect to External Resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-circle"></div>
+            <h2>Analyzing Brand Presence</h2>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-chart-line" aria-hidden="true"></i>
+                <span>Brand Analysis Report</span>
+            </div>
+            <ul class="nav-menu" role="list">
+                <li><a href="#overview" class="nav-link">Overview</a></li>
+                <li><a href="#website" class="nav-link">Website</a></li>
+                <li><a href="#social" class="nav-link">Social Media</a></li>
+                <li><a href="#seo" class="nav-link">SEO</a></li>
+                <li><a href="#reputation" class="nav-link">Reputation</a></li>
+                <li><a href="#competitors" class="nav-link">Competitors</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" role="banner">
+        <div class="hero-bg">
+            <div class="animated-bg"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Online Brand Presence Report</h1>
+            <p class="hero-subtitle">Comprehensive Analysis of Your Digital Footprint</p>
+            <div class="hero-date">Generated: <span id="report-date"></span></div>
+            <div class="hero-actions">
+                <button class="btn-primary" onclick="scrollToSection('overview')" aria-label="View the report">
+                    <i class="fas fa-arrow-down" aria-hidden="true"></i> View Report
+                </button>
+                <button class="btn-secondary" onclick="downloadReport()" aria-label="Download PDF version">
+                    <i class="fas fa-download" aria-hidden="true"></i> Download PDF
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Executive Summary -->
+    <section id="overview" class="section" role="region" aria-labelledby="overview-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="overview-title" class="section-title">Executive Summary</h2>
+                <p class="section-subtitle">Key findings from your online brand presence analysis</p>
+            </div>
+            
+            <div class="summary-grid">
+                <div class="summary-card" data-animate="fadeIn">
+                    <div class="card-icon">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
+                    </div>
+                    <h3>Digital Footprint</h3>
+                    <p>Your brand's overall online presence and visibility across digital platforms</p>
+                    <div class="metric-value">Strong</div>
+                </div>
+                
+                <div class="summary-card" data-animate="fadeIn">
+                    <div class="card-icon">
+                        <i class="fas fa-users" aria-hidden="true"></i>
+                    </div>
+                    <h3>Audience Reach</h3>
+                    <p>Total potential audience across all identified digital channels</p>
+                    <div class="metric-value">125K+</div>
+                </div>
+                
+                <div class="summary-card" data-animate="fadeIn">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                    </div>
+                    <h3>Engagement Rate</h3>
+                    <p>Average engagement across social media platforms</p>
+                    <div class="metric-value">4.8%</div>
+                </div>
+                
+                <div class="summary-card" data-animate="fadeIn">
+                    <div class="card-icon">
+                        <i class="fas fa-star" aria-hidden="true"></i>
+                    </div>
+                    <h3>Brand Reputation</h3>
+                    <p>Overall sentiment and reputation score</p>
+                    <div class="metric-value">4.5/5.0</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Website Analysis -->
+    <section id="website" class="section section-alt" role="region" aria-labelledby="website-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="website-title" class="section-title">Website Analysis</h2>
+                <p class="section-subtitle">In-depth review of your current website performance</p>
+            </div>
+
+            <div class="website-overview">
+                <div class="website-preview" data-animate="slideIn">
+                    <img src="website-screenshot.jpg" alt="Screenshot of current website homepage" class="website-img" loading="lazy">
+                    <div class="website-devices">
+                        <img src="responsive-preview.png" alt="Website displayed on multiple devices" class="devices-img" loading="lazy">
+                    </div>
+                </div>
+                
+                <div class="website-metrics" data-animate="slideIn">
+                    <h3>Performance Metrics</h3>
+                    
+                    <div class="metric-item">
+                        <div class="metric-header">
+                            <span>Page Load Speed</span>
+                            <span class="metric-score">2.3s</span>
+                        </div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-item">
+                        <div class="metric-header">
+                            <span>Mobile Responsiveness</span>
+                            <span class="metric-score">Good</span>
+                        </div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-item">
+                        <div class="metric-header">
+                            <span>User Experience Score</span>
+                            <span class="metric-score">78/100</span>
+                        </div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-fill" style="width: 78%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-item">
+                        <div class="metric-header">
+                            <span>Accessibility</span>
+                            <span class="metric-score">82/100</span>
+                        </div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-fill" style="width: 82%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="website-details">
+                <div class="detail-card">
+                    <h4><i class="fas fa-paint-brush" aria-hidden="true"></i> Design & Branding</h4>
+                    <ul>
+                        <li>Current design follows modern web standards</li>
+                        <li>Brand colors are consistently applied</li>
+                        <li>Typography hierarchy is well-structured</li>
+                        <li>Visual elements support brand identity</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-card">
+                    <h4><i class="fas fa-code" aria-hidden="true"></i> Technical Foundation</h4>
+                    <ul>
+                        <li>Built on responsive framework</li>
+                        <li>SSL certificate properly configured</li>
+                        <li>Meta tags present for basic SEO</li>
+                        <li>Analytics tracking implemented</li>
+                    </ul>
+                </div>
+                
+                <div class="detail-card">
+                    <h4><i class="fas fa-file-alt" aria-hidden="true"></i> Content Structure</h4>
+                    <ul>
+                        <li>Clear navigation hierarchy</li>
+                        <li>Engaging homepage content</li>
+                        <li>Service pages properly organized</li>
+                        <li>Contact information easily accessible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Media Analysis -->
+    <section id="social" class="section" role="region" aria-labelledby="social-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="social-title" class="section-title">Social Media Presence</h2>
+                <p class="section-subtitle">Analysis of your brand across social platforms</p>
+            </div>
+
+            <div class="social-grid">
+                <div class="social-card facebook" data-animate="zoomIn">
+                    <div class="social-header">
+                        <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                        <h3>Facebook</h3>
+                    </div>
+                    <div class="social-stats">
+                        <div class="stat">
+                            <span class="stat-value">15.2K</span>
+                            <span class="stat-label">Followers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">4.2%</span>
+                            <span class="stat-label">Engagement</span>
+                        </div>
+                    </div>
+                    <div class="social-insights">
+                        <p>Strong community engagement with regular posting schedule. High-quality visual content performs best.</p>
+                    </div>
+                </div>
+
+                <div class="social-card instagram" data-animate="zoomIn">
+                    <div class="social-header">
+                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                        <h3>Instagram</h3>
+                    </div>
+                    <div class="social-stats">
+                        <div class="stat">
+                            <span class="stat-value">22.8K</span>
+                            <span class="stat-label">Followers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">6.1%</span>
+                            <span class="stat-label">Engagement</span>
+                        </div>
+                    </div>
+                    <div class="social-insights">
+                        <p>Excellent visual storytelling. Reels and Stories drive highest engagement rates.</p>
+                    </div>
+                </div>
+
+                <div class="social-card linkedin" data-animate="zoomIn">
+                    <div class="social-header">
+                        <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+                        <h3>LinkedIn</h3>
+                    </div>
+                    <div class="social-stats">
+                        <div class="stat">
+                            <span class="stat-value">8.5K</span>
+                            <span class="stat-label">Followers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">3.8%</span>
+                            <span class="stat-label">Engagement</span>
+                        </div>
+                    </div>
+                    <div class="social-insights">
+                        <p>Professional content resonates well. Industry insights and company culture posts perform strongly.</p>
+                    </div>
+                </div>
+
+                <div class="social-card twitter" data-animate="zoomIn">
+                    <div class="social-header">
+                        <i class="fab fa-twitter" aria-hidden="true"></i>
+                        <h3>Twitter/X</h3>
+                    </div>
+                    <div class="social-stats">
+                        <div class="stat">
+                            <span class="stat-value">12.1K</span>
+                            <span class="stat-label">Followers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">2.9%</span>
+                            <span class="stat-label">Engagement</span>
+                        </div>
+                    </div>
+                    <div class="social-insights">
+                        <p>Active presence with timely updates. Thread posts generate significant discussion.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-chart-container">
+                <h3>Engagement Trends</h3>
+                <canvas id="engagementChart" aria-label="Social media engagement trends chart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEO Analysis -->
+    <section id="seo" class="section section-alt" role="region" aria-labelledby="seo-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="seo-title" class="section-title">SEO Performance</h2>
+                <p class="section-subtitle">Search engine visibility and optimization analysis</p>
+            </div>
+
+            <div class="seo-overview">
+                <div class="seo-score-card" data-animate="fadeIn">
+                    <div class="score-circle">
+                        <svg class="progress-ring" width="200" height="200" aria-label="SEO score visualization">
+                            <circle class="progress-ring__circle" stroke="#e0e0e0" stroke-width="10" fill="transparent" r="90" cx="100" cy="100"/>
+                            <circle class="progress-ring__circle progress-ring__circle--fill" stroke="#4CAF50" stroke-width="10" fill="transparent" r="90" cx="100" cy="100"/>
+                        </svg>
+                        <div class="score-text">
+                            <span class="score-number">76</span>
+                            <span class="score-label">SEO Score</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="seo-metrics">
+                    <div class="seo-metric-card">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                        <h4>Keyword Rankings</h4>
+                        <p>Tracking 45 keywords</p>
+                        <ul>
+                            <li>Top 10 positions: 12 keywords</li>
+                            <li>Top 20 positions: 23 keywords</li>
+                            <li>Top 50 positions: 38 keywords</li>
+                        </ul>
+                    </div>
+
+                    <div class="seo-metric-card">
+                        <i class="fas fa-link" aria-hidden="true"></i>
+                        <h4>Backlink Profile</h4>
+                        <p>Domain Authority: 42</p>
+                        <ul>
+                            <li>Total backlinks: 1,247</li>
+                            <li>Referring domains: 156</li>
+                            <li>High-quality links: 89</li>
+                        </ul>
+                    </div>
+
+                    <div class="seo-metric-card">
+                        <i class="fas fa-file-code" aria-hidden="true"></i>
+                        <h4>Technical SEO</h4>
+                        <p>Site Health: Good</p>
+                        <ul>
+                            <li>XML sitemap: Present</li>
+                            <li>Robots.txt: Configured</li>
+                            <li>Schema markup: Partial</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="seo-details">
+                <h3>Organic Traffic Overview</h3>
+                <canvas id="trafficChart" aria-label="Organic traffic trends chart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- Online Reputation -->
+    <section id="reputation" class="section" role="region" aria-labelledby="reputation-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="reputation-title" class="section-title">Online Reputation</h2>
+                <p class="section-subtitle">Brand sentiment and review analysis</p>
+            </div>
+
+            <div class="reputation-overview">
+                <div class="reputation-score" data-animate="fadeIn">
+                    <div class="stars" role="img" aria-label="4.5 out of 5 stars">
+                        <i class="fas fa-star" aria-hidden="true"></i>
+                        <i class="fas fa-star" aria-hidden="true"></i>
+                        <i class="fas fa-star" aria-hidden="true"></i>
+                        <i class="fas fa-star" aria-hidden="true"></i>
+                        <i class="fas fa-star-half-alt" aria-hidden="true"></i>
+                    </div>
+                    <h3>4.5 out of 5.0</h3>
+                    <p>Based on 342 reviews across platforms</p>
+                </div>
+
+                <div class="review-platforms">
+                    <div class="platform-card">
+                        <img src="google-icon.png" alt="Google Reviews" loading="lazy">
+                        <h4>Google Reviews</h4>
+                        <div class="platform-rating">
+                            <span class="rating">4.6</span>
+                            <span class="reviews">(156 reviews)</span>
+                        </div>
+                    </div>
+
+                    <div class="platform-card">
+                        <img src="yelp-icon.png" alt="Yelp" loading="lazy">
+                        <h4>Yelp</h4>
+                        <div class="platform-rating">
+                            <span class="rating">4.4</span>
+                            <span class="reviews">(89 reviews)</span>
+                        </div>
+                    </div>
+
+                    <div class="platform-card">
+                        <img src="trustpilot-icon.png" alt="Trustpilot" loading="lazy">
+                        <h4>Trustpilot</h4>
+                        <div class="platform-rating">
+                            <span class="rating">4.5</span>
+                            <span class="reviews">(97 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sentiment-analysis">
+                <h3>Sentiment Analysis</h3>
+                <div class="sentiment-chart">
+                    <canvas id="sentimentChart" aria-label="Customer sentiment distribution chart"></canvas>
+                </div>
+                <div class="sentiment-keywords">
+                    <h4>Common Themes in Reviews</h4>
+                    <div class="keyword-tags">
+                        <span class="tag positive">Excellent Service</span>
+                        <span class="tag positive">Professional</span>
+                        <span class="tag positive">High Quality</span>
+                        <span class="tag positive">Responsive</span>
+                        <span class="tag neutral">Pricing</span>
+                        <span class="tag positive">Reliable</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitor Analysis -->
+    <section id="competitors" class="section section-alt" role="region" aria-labelledby="competitors-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="competitors-title" class="section-title">Competitive Landscape</h2>
+                <p class="section-subtitle">How your brand compares in the market</p>
+            </div>
+
+            <div class="competitor-comparison">
+                <div class="comparison-table" data-animate="fadeIn">
+                    <table role="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Metric</th>
+                                <th scope="col" class="highlight">Your Brand</th>
+                                <th scope="col">Competitor A</th>
+                                <th scope="col">Competitor B</th>
+                                <th scope="col">Industry Avg</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Website Traffic (Monthly)</td>
+                                <td class="highlight">45K</td>
+                                <td>38K</td>
+                                <td>52K</td>
+                                <td>41K</td>
+                            </tr>
+                            <tr>
+                                <td>Social Media Followers</td>
+                                <td class="highlight">58.6K</td>
+                                <td>42.3K</td>
+                                <td>71.2K</td>
+                                <td>51.4K</td>
+                            </tr>
+                            <tr>
+                                <td>Domain Authority</td>
+                                <td class="highlight">42</td>
+                                <td>38</td>
+                                <td>45</td>
+                                <td>39</td>
+                            </tr>
+                            <tr>
+                                <td>Review Score</td>
+                                <td class="highlight">4.5</td>
+                                <td>4.2</td>
+                                <td>4.3</td>
+                                <td>4.1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="market-position">
+                    <h3>Market Position Analysis</h3>
+                    <canvas id="radarChart" aria-label="Market position radar chart"></canvas>
+                </div>
+            </div>
+
+            <div class="competitive-insights">
+                <h3>Key Competitive Insights</h3>
+                <div class="insight-cards">
+                    <div class="insight-card">
+                        <i class="fas fa-trophy" aria-hidden="true"></i>
+                        <h4>Strengths</h4>
+                        <ul>
+                            <li>Superior customer satisfaction ratings</li>
+                            <li>Strong social media engagement</li>
+                            <li>Above-average domain authority</li>
+                        </ul>
+                    </div>
+                    <div class="insight-card">
+                        <i class="fas fa-chart-line" aria-hidden="true"></i>
+                        <h4>Opportunities</h4>
+                        <ul>
+                            <li>Website traffic growth potential</li>
+                            <li>Expanded content marketing</li>
+                            <li>Enhanced mobile experience</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Findings -->
+    <section id="findings" class="section" role="region" aria-labelledby="findings-title">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="findings-title" class="section-title">Key Findings & Observations</h2>
+                <p class="section-subtitle">Critical insights from your brand analysis</p>
+            </div>
+
+            <div class="findings-grid">
+                <div class="finding-card" data-animate="slideIn">
+                    <div class="finding-icon success">
+                        <i class="fas fa-check-circle" aria-hidden="true"></i>
+                    </div>
+                    <h3>Strong Brand Recognition</h3>
+                    <p>Your brand maintains consistent visual identity across all digital platforms, contributing to strong recognition and recall.</p>
+                </div>
+
+                <div class="finding-card" data-animate="slideIn">
+                    <div class="finding-icon success">
+                        <i class="fas fa-check-circle" aria-hidden="true"></i>
+                    </div>
+                    <h3>Engaged Social Community</h3>
+                    <p>Above-average engagement rates across social platforms indicate a loyal and active community around your brand.</p>
+                </div>
+
+                <div class="finding-card" data-animate="slideIn">
+                    <div class="finding-icon warning">
+                        <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+                    </div>
+                    <h3>Mobile Optimization</h3>
+                    <p>While functional, the mobile experience could be enhanced to match modern user expectations and improve conversions.</p>
+                </div>
+
+                <div class="finding-card" data-animate="slideIn">
+                    <div class="finding-icon info">
+                        <i class="fas fa-info-circle" aria-hidden="true"></i>
+                    </div>
+                    <h3>Content Opportunities</h3>
+                    <p>Regular content creation could significantly boost SEO performance and establish stronger thought leadership.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta-section" role="region" aria-labelledby="cta-title">
+        <div class="container">
+            <div class="cta-content">
+                <h2 id="cta-title">Ready to Elevate Your Digital Presence?</h2>
+                <p>This report showcases your current online brand presence. Imagine what we could achieve together with a strategic digital transformation.</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary btn-large" onclick="scheduleConsultation()" aria-label="Schedule a consultation meeting">
+                        <i class="fas fa-calendar" aria-hidden="true"></i> Schedule Consultation
+                    </button>
+                    <button class="btn-secondary btn-large" onclick="downloadReport()" aria-label="Download the full report as PDF">
+                        <i class="fas fa-download" aria-hidden="true"></i> Download Full Report
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 Brand Analysis Report. Prepared with expertise and attention to detail.</p>
+                <p>This report represents a snapshot of your online presence as of <span class="report-date"></span></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script src="script.js" defer></script>
+</body>
+</html>

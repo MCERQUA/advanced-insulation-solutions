@@ -1,0 +1,9 @@
+# Redirect old URLs to home
+/home              /                    301
+/index             /                    301
+/report.html       /                    301
+/analysis          /                    301
+
+# Handle common variations
+/brand-report      /                    301
+/online-presence   /                    301
