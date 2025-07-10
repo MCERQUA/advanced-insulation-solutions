@@ -48,8 +48,7 @@
 
 ## High-Priority Citations to Build
 
-### Tier 1 - Critical Directories (Complete within 30 days)
-
+### Tier 1 - Critical Directories 
 1. **Google Business Profile**
    - Priority: URGENT
    - Impact: Highest
@@ -75,7 +74,7 @@
    - Impact: High for contractors
    - Cost: Free listing (paid leads optional)
 
-### Tier 2 - Industry-Specific Directories (Complete within 60 days)
+### Tier 2 - Industry-Specific Directories 
 
 1. **HomeAdvisor Pro**
    - URL: https://pro.homeadvisor.com/
@@ -102,7 +101,7 @@
    - Impact: High for leads
    - Cost: Pay per lead
 
-### Tier 3 - Local & General Directories (Complete within 90 days)
+### Tier 3 - Local & General Directories 
 
 1. **Denver Chamber of Commerce**
    - URL: https://denverchamber.org/
@@ -241,13 +240,13 @@
 3. Create Yelp business account
 4. Standardize NAP across all platforms
 
-### Month 1:
+### 1:
 1. Complete Tier 1 directory submissions
 2. Launch review generation campaign
 3. Create linkable assets (guides/tools)
 4. Begin guest posting outreach
 
-### Month 2-3:
+### 2:
 1. Complete Tier 2 & 3 directories
 2. Pursue partnership opportunities
 3. Develop resource content
@@ -276,12 +275,6 @@
 - Review quantity: 5+/month
 - Response rate: 100%
 
-## ROI Expectations
-
-- **Month 1-3**: Foundation building, minimal direct ROI
-- **Month 4-6**: Increased visibility, 20-30% more inquiries
-- **Month 7-12**: Established presence, 50%+ lead increase
-- **Year 2+**: Dominant local presence, sustainable growth
 
 ---
 
