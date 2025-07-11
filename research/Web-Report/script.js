@@ -1,4 +1,4 @@
-// Advanced Research Report Interactive Scripts
+// Echo AI Systems - Company Research Report Interactive Scripts
 
 // Global Variables
 let scrollProgress = 0;
@@ -19,8 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeNavigation();
     initializeAnimations();
     initializeCharts();
-    initializeCalculator();
-    initializeCounters();
     initializeMobileMenu();
     updateProgressBar();
 });
@@ -116,7 +114,7 @@ function initializeAnimations() {
     });
 }
 
-// Chart.js Initialization
+// Chart.js Initialization with Real Data
 function initializeCharts() {
     // Overall Score Doughnut Chart
     const overallScoreCtx = document.getElementById('overallScoreChart');
@@ -125,7 +123,7 @@ function initializeCharts() {
             type: 'doughnut',
             data: {
                 datasets: [{
-                    data: [37.5, 62.5],
+                    data: [42, 58], // 4.2/10 score
                     backgroundColor: ['#f59e0b', 'rgba(255, 255, 255, 0.1)'],
                     borderWidth: 0
                 }]
@@ -142,61 +140,31 @@ function initializeCharts() {
         });
     }
 
-    // Keyword Opportunity Chart
-    const keywordCtx = document.getElementById('keywordChart');
-    if (keywordCtx) {
-        chartInstances.keywords = new Chart(keywordCtx, {
-            type: 'bar',
+    // Competitor Analysis Chart
+    const competitorCtx = document.getElementById('competitorChart');
+    if (competitorCtx) {
+        chartInstances.competitor = new Chart(competitorCtx, {
+            type: 'radar',
             data: {
-                labels: [
-                    'insulation contractor denver',
-                    'spray foam insulation denver',
-                    'attic insulation denver',
-                    'insulation companies near me',
-                    'home insulation denver'
-                ],
+                labels: ['Website', 'SEO', 'Reviews', 'Social Media', 'Content', 'Local SEO'],
                 datasets: [{
-                    label: 'Monthly Search Volume',
-                    data: [590, 320, 210, 880, 140],
-                    backgroundColor: '#2563eb'
+                    label: 'Advanced Insulation Solutions',
+                    data: [7, 3, 3, 2, 6, 4],
+                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                    borderColor: '#ef4444',
+                    pointBackgroundColor: '#ef4444'
                 }, {
-                    label: 'Estimated Value ($/year in thousands)',
-                    data: [85, 55, 35, 75, 20],
-                    backgroundColor: '#10b981'
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    }
-
-    // Market Share Chart
-    const marketShareCtx = document.getElementById('marketShareChart');
-    if (marketShareCtx) {
-        chartInstances.marketShare = new Chart(marketShareCtx, {
-            type: 'pie',
-            data: {
-                labels: ['REenergizeCO', 'NetZero', 'Ideal Home', 'Others', 'Your Potential'],
-                datasets: [{
-                    data: [35, 25, 20, 17, 3],
-                    backgroundColor: [
-                        '#ef4444',
-                        '#f59e0b',
-                        '#3b82f6',
-                        '#94a3b8',
-                        '#10b981'
-                    ]
+                    label: 'NetZero Insulation',
+                    data: [8, 9, 7, 6, 9, 8],
+                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                    borderColor: '#10b981',
+                    pointBackgroundColor: '#10b981'
+                }, {
+                    label: 'Colorado Insulation',
+                    data: [6, 8, 9, 4, 5, 9],
+                    backgroundColor: 'rgba(37, 99, 235, 0.2)',
+                    borderColor: '#2563eb',
+                    pointBackgroundColor: '#2563eb'
                 }]
             },
             options: {
@@ -208,93 +176,25 @@ function initializeCharts() {
                             color: 'white'
                         }
                     }
+                },
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: {
+                            color: 'white'
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        pointLabels: {
+                            color: 'white'
+                        }
+                    }
                 }
             }
         });
     }
-}
-
-// Calculator Functions
-function initializeCalculator() {
-    // Set initial values
-    updateCalculator();
-}
-
-function updateCalculator() {
-    const reviews = document.getElementById('reviewsSlider').value;
-    const ranking = document.getElementById('rankingSelect').value;
-    const investment = document.getElementById('investmentSlider').value;
-    
-    // Update display values
-    document.getElementById('reviewsValue').textContent = reviews;
-    document.getElementById('investmentValue').textContent = parseInt(investment).toLocaleString();
-    
-    // Calculate results
-    const baseLeads = 10;
-    const reviewMultiplier = 1 + (reviews / 50) * 0.5;
-    const rankingMultiplier = ranking === '1' ? 3 : ranking === '3' ? 2.5 : ranking === '5' ? 2 : 1.5;
-    const investmentMultiplier = investment / 5000;
-    
-    const leads = Math.round(baseLeads * reviewMultiplier * rankingMultiplier * investmentMultiplier);
-    const conversionRate = 15 + (reviews / 10) + (6 - ranking);
-    const customers = Math.round(leads * (conversionRate / 100));
-    const avgJobValue = 3500;
-    const revenue = customers * avgJobValue;
-    const roi = Math.round(((revenue - investment) / investment) * 100);
-    
-    // Update results
-    document.getElementById('leadsResult').textContent = leads;
-    document.getElementById('conversionResult').textContent = conversionRate + '%';
-    document.getElementById('customersResult').textContent = customers;
-    document.getElementById('revenueResult').textContent = '$' + revenue.toLocaleString();
-    document.getElementById('roiResult').textContent = roi + '%';
-    
-    // Update ROI color
-    const roiElement = document.getElementById('roiResult');
-    if (roi > 500) {
-        roiElement.style.color = 'var(--success)';
-    } else if (roi > 200) {
-        roiElement.style.color = 'var(--warning)';
-    } else {
-        roiElement.style.color = 'var(--danger)';
-    }
-}
-
-// Counter Animation
-function initializeCounters() {
-    const counters = document.querySelectorAll('[data-animate="counter"] .stat-number');
-    
-    const observerOptions = {
-        threshold: 0.5
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const target = parseInt(counter.dataset.target);
-                animateCounter(counter, target);
-                observer.unobserve(counter);
-            }
-        });
-    }, observerOptions);
-    
-    counters.forEach(counter => {
-        observer.observe(counter);
-    });
-}
-
-function animateCounter(element, target) {
-    let current = 0;
-    const increment = target / 50;
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= target) {
-            current = target;
-            clearInterval(timer);
-        }
-        element.textContent = Math.round(current);
-    }, 30);
 }
 
 // Mobile Menu
@@ -317,56 +217,40 @@ function initializeMobileMenu() {
 }
 
 // Utility Functions
-function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        const navHeight = document.querySelector('.report-nav').offsetHeight;
-        const targetPosition = section.offsetTop - navHeight - 20;
-        window.scrollTo({
-            top: targetPosition,
-            behavior: 'smooth'
-        });
-    }
-}
-
 function showMetricDetail(metric) {
-    // Show detailed modal or tooltip for each metric
-    alert(`Detailed analysis for ${metric} would appear here in a modal.`);
-}
-
-function showPhase(phaseNumber) {
-    // Update active phase
-    document.querySelectorAll('.timeline-phase').forEach(phase => {
-        phase.classList.remove('active');
-    });
-    document.querySelectorAll('.timeline-phase')[phaseNumber - 1].classList.add('active');
+    // Create modal content based on metric
+    const modalContent = {
+        website: {
+            title: 'Website Performance Details',
+            content: 'Your website scores 7/10. Strengths include mobile responsiveness and SSL security. Areas for improvement: meta tag optimization, internal linking, and content structure.'
+        },
+        search: {
+            title: 'Search Visibility Analysis',
+            content: 'Currently not ranking for primary keywords. Missing XML sitemap submission and local SEO optimization. Competitors dominate first page results.'
+        },
+        social: {
+            title: 'Social Media Presence',
+            content: 'Minimal presence with only 78 Facebook followers. No active posting strategy or engagement. Competitors have 1000+ followers across platforms.'
+        },
+        reputation: {
+            title: 'Online Reputation Status',
+            content: 'Limited online reviews visible. Google Business Profile exists but needs optimization. No review generation system in place.'
+        },
+        local: {
+            title: 'Local SEO Performance',
+            content: 'Google Business Profile incomplete. Missing photos, services, and regular posts. Not appearing in local pack results.'
+        },
+        content: {
+            title: 'Content Strategy Assessment',
+            content: 'Good homepage content but no blog section. Missing opportunities for keyword targeting and thought leadership.'
+        }
+    };
     
-    // Update progress line
-    const progressLine = document.querySelector('.progress-line');
-    progressLine.style.height = `${(phaseNumber - 1) * 25}%`;
-}
-
-function playVideo() {
-    const modal = document.getElementById('videoModal');
-    modal.style.display = 'block';
-    // In a real implementation, you would load and play the video here
-}
-
-function closeVideo() {
-    const modal = document.getElementById('videoModal');
-    modal.style.display = 'none';
-    const video = document.getElementById('summaryVideo');
-    video.pause();
-}
-
-function scheduleCall() {
-    // In a real implementation, this would open a calendar booking widget
-    window.open('https://calendly.com/your-booking-link', '_blank');
-}
-
-function downloadReport() {
-    // In a real implementation, this would generate and download a PDF
-    window.print();
+    const details = modalContent[metric];
+    if (details) {
+        // In production, this would open a proper modal
+        alert(`${details.title}\n\n${details.content}`);
+    }
 }
 
 // Performance optimization - Debounce scroll events
@@ -389,17 +273,8 @@ window.addEventListener('scroll', debounce(() => {
     handleNavbarScroll();
 }, 10));
 
-// Add parallax effect to hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero-bg-animation');
-    if (hero) {
-        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-    }
-});
-
 // Add hover effects to cards
-document.querySelectorAll('.impact-card, .score-metric, .keyword-card').forEach(card => {
+document.querySelectorAll('.score-metric, .keyword-card, .file-card').forEach(card => {
     card.addEventListener('mouseenter', function() {
         this.style.transform = 'translateY(-5px)';
     });
@@ -409,38 +284,24 @@ document.querySelectorAll('.impact-card, .score-metric, .keyword-card').forEach(
     });
 });
 
-// Initialize timeline on load
-showPhase(1);
-
 // Print styles optimization
 window.addEventListener('beforeprint', () => {
-    // Expand all collapsed sections
-    document.querySelectorAll('.timeline-phase').forEach(phase => {
-        phase.classList.add('active');
+    // Expand all sections for printing
+    document.querySelectorAll('[data-animate]').forEach(element => {
+        element.classList.add('animated');
     });
 });
 
-window.addEventListener('afterprint', () => {
-    // Reset to first phase
-    showPhase(1);
-});
+// Download functionality
+function downloadReport() {
+    // In production, this would generate a proper PDF
+    window.print();
+}
 
-// Easter egg - Konami code
-let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-let konamiIndex = 0;
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === konamiCode[konamiIndex]) {
-        konamiIndex++;
-        if (konamiIndex === konamiCode.length) {
-            activateEasterEgg();
-            konamiIndex = 0;
-        }
-    } else {
-        konamiIndex = 0;
+// Add event listener for download button
+document.addEventListener('DOMContentLoaded', () => {
+    const downloadBtn = document.querySelector('.download-section button');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', downloadReport);
     }
 });
-
-function activateEasterEgg() {
-    alert('🎉 Congratulations! You found the secret. Use code "KONAMI" for 10% off your first month!');
-}
