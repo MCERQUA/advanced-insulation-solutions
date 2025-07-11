@@ -4,7 +4,7 @@
 :root {
     --primary: #2563eb;
     --primary-dark: #1d4ed8;
-    --secondary: #7c3aed;
+    --secondary: #64748b; /* Changed from purple to grey */
     --success: #10b981;
     --warning: #f59e0b;
     --danger: #ef4444;
@@ -14,9 +14,11 @@
     --light: #f8fafc;
     --white: #ffffff;
     
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Updated gradients - removed purple */
+    --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     --gradient-dark: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
     --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --gradient-secondary: linear-gradient(135deg, #1e293b 0%, #334155 100%);
     
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -259,7 +261,7 @@ body {
 }
 
 .section-gradient {
-    background: var(--gradient-primary);
+    background: var(--gradient-secondary); /* Changed from gradient-primary to use grey gradient */
     color: white;
 }
 
@@ -870,6 +872,11 @@ body {
 
 .contact-info a:hover {
     text-decoration: underline;
+}
+
+.contact-email {
+    font-size: 1.125rem;
+    margin: 0.5rem 0;
 }
 
 /* Footer */
