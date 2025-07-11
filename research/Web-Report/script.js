@@ -1,284 +1,249 @@
-// Force hide loader immediately if still visible after 3 seconds
-setTimeout(() => {
-    const loader = document.getElementById('loader');
-    if (loader) {
-        loader.style.display = 'none';
-    }
-}, 3000);
+// Research Report Interactive Scripts
 
-// Initialize on DOM load
+// Smooth scroll navigation
 document.addEventListener('DOMContentLoaded', function() {
-    // Hide loader immediately and with timeout as backup
-    const loader = document.getElementById('loader');
-    if (loader) {
-        setTimeout(() => {
-            loader.classList.add('hidden');
-            // Fallback - completely hide if CSS transition doesn't work
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 500);
-        }, 800);
-    }
-
-    // Set current date
-    const currentDate = new Date().toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-    });
-    
-    const reportDateEl = document.getElementById('report-date');
-    if (reportDateEl) reportDateEl.textContent = currentDate;
-    
-    document.querySelectorAll('.report-date').forEach(el => {
-        el.textContent = currentDate;
-    });
-
-    // Initialize animations
-    initializeAnimations();
-
-    // Initialize navigation
-    initializeNavigation();
-
-    // Initialize smooth scroll
-    initializeSmoothScroll();
-});
-
-// Backup loader hide on window load
-window.addEventListener('load', function() {
-    const loader = document.getElementById('loader');
-    if (loader) {
-        loader.style.display = 'none';
-    }
-});
-
-// Animation observer
-function initializeAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animated');
-                
-                // Animate progress bars
-                if (entry.target.querySelector('.progress-fill')) {
-                    const progressBars = entry.target.querySelectorAll('.progress-fill');
-                    progressBars.forEach(bar => {
-                        const width = bar.style.width;
-                        bar.style.width = '0';
-                        setTimeout(() => {
-                            bar.style.width = width;
-                        }, 100);
-                    });
-                }
+    // Navigation scroll
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                const navHeight = document.querySelector('.report-nav').offsetHeight;
+                const targetPosition = targetSection.offsetTop - navHeight - 20;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
             }
         });
-    }, observerOptions);
-
-    // Observe all animated elements
-    document.querySelectorAll('[data-animate]').forEach(el => {
-        observer.observe(el);
     });
 
-    // Observe sections for progress bars
-    document.querySelectorAll('.section').forEach(el => {
-        observer.observe(el);
-    });
-}
-
-// Navigation functionality
-function initializeNavigation() {
-    const navbar = document.querySelector('.navbar');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    if (!navbar) return;
-    
-    // Scroll effect
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-
-        // Update active nav link
+    // Active navigation highlighting
+    function updateActiveNav() {
         const sections = document.querySelectorAll('section[id]');
-        const scrollY = window.pageYOffset;
+        const navHeight = document.querySelector('.report-nav').offsetHeight;
+        let current = '';
 
         sections.forEach(section => {
-            const sectionHeight = section.offsetHeight;
-            const sectionTop = section.offsetTop - 100;
-            const sectionId = section.getAttribute('id');
-
-            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('active');
-                    }
-                });
+            const sectionTop = section.offsetTop - navHeight - 100;
+            if (pageYOffset >= sectionTop) {
+                current = section.getAttribute('id');
             }
         });
-    });
-}
 
-// Smooth scroll
-function initializeSmoothScroll() {
-    document.querySelectorAll('a[href^=\"#\"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    });
-}
-
-// Scroll to section
-function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-// Add interactive hover effects
-document.addEventListener('DOMContentLoaded', function() {
-    // Add ripple effect to buttons
-    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary');
-    buttons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-            this.appendChild(ripple);
-
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-
-            setTimeout(() => {
-                if (ripple.parentNode) {
-                    ripple.remove();
-                }
-            }, 600);
-        });
-    });
-
-    // Add parallax effect to hero section
-    const hero = document.querySelector('.hero');
-    const heroContent = document.querySelector('.hero-content');
-    
-    if (hero && heroContent) {
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = scrolled * 0.5;
-            
-            hero.style.transform = `translateY(${parallax}px)`;
-            
-            if (scrolled < window.innerHeight) {
-                heroContent.style.opacity = 1 - (scrolled / window.innerHeight);
-                heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').substring(1) === current) {
+                link.classList.add('active');
             }
         });
     }
 
-    // Add number counting animation
+    window.addEventListener('scroll', updateActiveNav);
+
+    // Animate elements on scroll
     const observerOptions = {
-        threshold: 0.5
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
     };
 
-    const countObserver = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const target = entry.target;
-                const text = target.textContent;
-                const numbers = text.match(/\d+/);
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
                 
-                if (numbers) {
-                    const endValue = parseInt(numbers[0]);
-                    let startValue = 0;
-                    const duration = 2000;
-                    const increment = endValue / (duration / 16);
-
-                    const counter = setInterval(() => {
-                        startValue += increment;
-                        if (startValue >= endValue) {
-                            target.textContent = text.replace(/\d+/, endValue);
-                            clearInterval(counter);
-                        } else {
-                            target.textContent = text.replace(/\d+/, Math.floor(startValue));
-                        }
-                    }, 16);
+                // Animate score bars
+                if (entry.target.classList.contains('score-fill')) {
+                    const width = entry.target.style.width;
+                    entry.target.style.width = '0';
+                    setTimeout(() => {
+                        entry.target.style.width = width;
+                    }, 100);
                 }
-
-                countObserver.unobserve(target);
             }
         });
     }, observerOptions);
 
-    // Observe metric values for counting animation
-    document.querySelectorAll('.metric-value, .stat-value').forEach(el => {
-        if (/\d/.test(el.textContent)) {
-            countObserver.observe(el);
+    // Observe elements
+    const animateElements = document.querySelectorAll('.summary-card, .report-card, .metric-card, .competitor-card, .timeline-item');
+    animateElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.6s ease-out';
+        observer.observe(el);
+    });
+
+    // Animate score bars
+    const scoreFills = document.querySelectorAll('.score-fill');
+    scoreFills.forEach(fill => {
+        observer.observe(fill);
+    });
+
+    // Print functionality
+    window.downloadReport = function() {
+        // In a real implementation, this would generate and download a PDF
+        // For now, we'll trigger the print dialog
+        window.print();
+    };
+
+    // Add interactive tooltips to metrics
+    const metricCards = document.querySelectorAll('.metric-card');
+    metricCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // Mobile menu toggle (if needed)
+    const createMobileMenu = () => {
+        const nav = document.querySelector('.report-nav');
+        const navContainer = document.querySelector('.nav-container');
+        
+        // Create mobile menu button
+        const menuButton = document.createElement('button');
+        menuButton.className = 'mobile-menu-toggle';
+        menuButton.innerHTML = '<i class="fas fa-bars"></i>';
+        menuButton.style.display = 'none';
+        
+        // Insert menu button
+        navContainer.appendChild(menuButton);
+        
+        // Toggle menu on mobile
+        menuButton.addEventListener('click', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            navMenu.classList.toggle('mobile-active');
+        });
+        
+        // Check screen size
+        const checkMobile = () => {
+            if (window.innerWidth <= 768) {
+                menuButton.style.display = 'block';
+            } else {
+                menuButton.style.display = 'none';
+                document.querySelector('.nav-menu').classList.remove('mobile-active');
+            }
+        };
+        
+        window.addEventListener('resize', checkMobile);
+        checkMobile();
+    };
+    
+    createMobileMenu();
+
+    // Add copy functionality for key insights
+    const addCopyButtons = () => {
+        const insightBoxes = document.querySelectorAll('.insight-box, .alert-box');
+        insightBoxes.forEach(box => {
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-btn';
+            copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+            copyBtn.style.cssText = 'position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; color: #64748b;';
+            
+            box.style.position = 'relative';
+            box.appendChild(copyBtn);
+            
+            copyBtn.addEventListener('click', function() {
+                const text = box.textContent.trim();
+                navigator.clipboard.writeText(text).then(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 2000);
+                });
+            });
+        });
+    };
+    
+    addCopyButtons();
+
+    // Interactive data visualization for scores
+    const createInteractiveScores = () => {
+        const scoreItems = document.querySelectorAll('.score-item');
+        scoreItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const fill = this.querySelector('.score-fill');
+                const score = fill.textContent;
+                const label = this.querySelector('.score-label').textContent;
+                
+                // Create tooltip
+                const tooltip = document.createElement('div');
+                tooltip.className = 'score-tooltip';
+                tooltip.textContent = `${label}: ${score} - Click for details`;
+                tooltip.style.cssText = 'position: absolute; background: #1e293b; color: white; padding: 8px 12px; border-radius: 6px; font-size: 14px; z-index: 1000;';
+                
+                document.body.appendChild(tooltip);
+                
+                // Position tooltip
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = rect.left + 'px';
+                tooltip.style.top = (rect.top - 40) + 'px';
+                
+                // Remove after 2 seconds
+                setTimeout(() => {
+                    tooltip.remove();
+                }, 2000);
+            });
+        });
+    };
+    
+    createInteractiveScores();
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            // Close any open modals or menus
+            document.querySelector('.nav-menu').classList.remove('mobile-active');
         }
     });
+
+    // Performance tracking simulation
+    console.log('Research Report loaded successfully');
+    console.log('Time to interactive:', performance.now().toFixed(2) + 'ms');
 });
 
-// Add style for ripple effect
+// Add CSS for mobile menu and active states
 const style = document.createElement('style');
 style.textContent = `
-    .ripple {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.6);
-        transform: scale(0);
-        animation: ripple-animation 0.6s ease-out;
-        pointer-events: none;
-        width: 20px;
-        height: 20px;
-    }
-
-    @keyframes ripple-animation {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-
-    .nav-cta {
-        background: #2563eb !important;
-        color: white !important;
-        padding: 8px 16px !important;
-        border-radius: 6px;
+    .nav-link.active {
+        color: var(--primary-color);
         font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .nav-cta:hover {
-        background: #1d4ed8 !important;
-        transform: translateY(-2px);
-    }
-
-    canvas {
-        max-height: 400px;
     }
     
-    /* Force hide loader styles */
-    .loader.hidden {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.5s ease;
+    .mobile-menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        cursor: pointer;
+    }
+    
+    @media (max-width: 768px) {
+        .nav-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .nav-menu.mobile-active {
+            display: flex;
+        }
+    }
+    
+    .copy-btn:hover {
+        color: var(--primary-color);
     }
 `;
 document.head.appendChild(style);
