@@ -1,17 +1,40 @@
-// Research Report Interactive Scripts
+// Advanced Research Report Interactive Scripts
 
-// Smooth scroll navigation
+// Global Variables
+let scrollProgress = 0;
+let chartInstances = {};
+
+// Initialize on DOM Load
 document.addEventListener('DOMContentLoaded', function() {
-    // Navigation scroll
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+    // Hide loader
+    setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (loader) {
+            loader.classList.add('hidden');
+            setTimeout(() => loader.style.display = 'none', 500);
+        }
+    }, 1500);
+
+    // Initialize all components
+    initializeNavigation();
+    initializeAnimations();
+    initializeCharts();
+    initializeCalculator();
+    initializeCounters();
+    initializeMobileMenu();
+    updateProgressBar();
+});
+
+// Navigation Functions
+function initializeNavigation() {
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            if (targetSection) {
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
                 const navHeight = document.querySelector('.report-nav').offsetHeight;
-                const targetPosition = targetSection.offsetTop - navHeight - 20;
+                const targetPosition = target.offsetTop - navHeight - 20;
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -21,229 +44,403 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Active navigation highlighting
-    function updateActiveNav() {
-        const sections = document.querySelectorAll('section[id]');
-        const navHeight = document.querySelector('.report-nav').offsetHeight;
-        let current = '';
+    window.addEventListener('scroll', () => {
+        updateActiveNav();
+        updateProgressBar();
+        handleNavbarScroll();
+    });
+}
 
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - navHeight - 100;
-            if (pageYOffset >= sectionTop) {
-                current = section.getAttribute('id');
-            }
-        });
+function updateActiveNav() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const navHeight = document.querySelector('.report-nav').offsetHeight;
+    
+    let current = '';
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - navHeight - 100;
+        if (pageYOffset >= sectionTop) {
+            current = section.getAttribute('id');
+        }
+    });
 
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href').substring(1) === current) {
-                link.classList.add('active');
-            }
-        });
+    navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === current) {
+            link.classList.add('active');
+        }
+    });
+}
+
+function handleNavbarScroll() {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
     }
+}
 
-    window.addEventListener('scroll', updateActiveNav);
+function updateProgressBar() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById('progressBar').style.width = scrolled + '%';
+}
 
-    // Animate elements on scroll
+// Animation Functions
+function initializeAnimations() {
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -100px 0px'
     };
 
-    const observer = new IntersectionObserver(function(entries) {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                const element = entry.target;
+                const delay = element.dataset.delay || 0;
                 
-                // Animate score bars
-                if (entry.target.classList.contains('score-fill')) {
-                    const width = entry.target.style.width;
-                    entry.target.style.width = '0';
-                    setTimeout(() => {
-                        entry.target.style.width = width;
-                    }, 100);
-                }
+                setTimeout(() => {
+                    element.classList.add('animated');
+                }, delay);
+                
+                observer.unobserve(element);
             }
         });
     }, observerOptions);
 
-    // Observe elements
-    const animateElements = document.querySelectorAll('.summary-card, .report-card, .metric-card, .competitor-card, .timeline-item');
-    animateElements.forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.6s ease-out';
+    // Observe all animated elements
+    document.querySelectorAll('[data-animate]').forEach(el => {
         observer.observe(el);
     });
+}
 
-    // Animate score bars
-    const scoreFills = document.querySelectorAll('.score-fill');
-    scoreFills.forEach(fill => {
-        observer.observe(fill);
-    });
-
-    // Print functionality
-    window.downloadReport = function() {
-        // In a real implementation, this would generate and download a PDF
-        // For now, we'll trigger the print dialog
-        window.print();
-    };
-
-    // Add interactive tooltips to metrics
-    const metricCards = document.querySelectorAll('.metric-card');
-    metricCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-5px)';
-        });
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0)';
-        });
-    });
-
-    // Mobile menu toggle (if needed)
-    const createMobileMenu = () => {
-        const nav = document.querySelector('.report-nav');
-        const navContainer = document.querySelector('.nav-container');
-        
-        // Create mobile menu button
-        const menuButton = document.createElement('button');
-        menuButton.className = 'mobile-menu-toggle';
-        menuButton.innerHTML = '<i class="fas fa-bars"></i>';
-        menuButton.style.display = 'none';
-        
-        // Insert menu button
-        navContainer.appendChild(menuButton);
-        
-        // Toggle menu on mobile
-        menuButton.addEventListener('click', function() {
-            const navMenu = document.querySelector('.nav-menu');
-            navMenu.classList.toggle('mobile-active');
-        });
-        
-        // Check screen size
-        const checkMobile = () => {
-            if (window.innerWidth <= 768) {
-                menuButton.style.display = 'block';
-            } else {
-                menuButton.style.display = 'none';
-                document.querySelector('.nav-menu').classList.remove('mobile-active');
+// Chart.js Initialization
+function initializeCharts() {
+    // Overall Score Doughnut Chart
+    const overallScoreCtx = document.getElementById('overallScoreChart');
+    if (overallScoreCtx) {
+        chartInstances.overallScore = new Chart(overallScoreCtx, {
+            type: 'doughnut',
+            data: {
+                datasets: [{
+                    data: [37.5, 62.5],
+                    backgroundColor: ['#f59e0b', 'rgba(255, 255, 255, 0.1)'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                cutout: '80%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
             }
-        };
-        
-        window.addEventListener('resize', checkMobile);
-        checkMobile();
-    };
-    
-    createMobileMenu();
-
-    // Add copy functionality for key insights
-    const addCopyButtons = () => {
-        const insightBoxes = document.querySelectorAll('.insight-box, .alert-box');
-        insightBoxes.forEach(box => {
-            const copyBtn = document.createElement('button');
-            copyBtn.className = 'copy-btn';
-            copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-            copyBtn.style.cssText = 'position: absolute; top: 10px; right: 10px; background: none; border: none; cursor: pointer; color: #64748b;';
-            
-            box.style.position = 'relative';
-            box.appendChild(copyBtn);
-            
-            copyBtn.addEventListener('click', function() {
-                const text = box.textContent.trim();
-                navigator.clipboard.writeText(text).then(() => {
-                    copyBtn.innerHTML = '<i class="fas fa-check"></i>';
-                    setTimeout(() => {
-                        copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-                    }, 2000);
-                });
-            });
         });
-    };
-    
-    addCopyButtons();
+    }
 
-    // Interactive data visualization for scores
-    const createInteractiveScores = () => {
-        const scoreItems = document.querySelectorAll('.score-item');
-        scoreItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const fill = this.querySelector('.score-fill');
-                const score = fill.textContent;
-                const label = this.querySelector('.score-label').textContent;
-                
-                // Create tooltip
-                const tooltip = document.createElement('div');
-                tooltip.className = 'score-tooltip';
-                tooltip.textContent = `${label}: ${score} - Click for details`;
-                tooltip.style.cssText = 'position: absolute; background: #1e293b; color: white; padding: 8px 12px; border-radius: 6px; font-size: 14px; z-index: 1000;';
-                
-                document.body.appendChild(tooltip);
-                
-                // Position tooltip
-                const rect = this.getBoundingClientRect();
-                tooltip.style.left = rect.left + 'px';
-                tooltip.style.top = (rect.top - 40) + 'px';
-                
-                // Remove after 2 seconds
-                setTimeout(() => {
-                    tooltip.remove();
-                }, 2000);
-            });
+    // Keyword Opportunity Chart
+    const keywordCtx = document.getElementById('keywordChart');
+    if (keywordCtx) {
+        chartInstances.keywords = new Chart(keywordCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'insulation contractor denver',
+                    'spray foam insulation denver',
+                    'attic insulation denver',
+                    'insulation companies near me',
+                    'home insulation denver'
+                ],
+                datasets: [{
+                    label: 'Monthly Search Volume',
+                    data: [590, 320, 210, 880, 140],
+                    backgroundColor: '#2563eb'
+                }, {
+                    label: 'Estimated Value ($/year in thousands)',
+                    data: [85, 55, 35, 75, 20],
+                    backgroundColor: '#10b981'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         });
+    }
+
+    // Market Share Chart
+    const marketShareCtx = document.getElementById('marketShareChart');
+    if (marketShareCtx) {
+        chartInstances.marketShare = new Chart(marketShareCtx, {
+            type: 'pie',
+            data: {
+                labels: ['REenergizeCO', 'NetZero', 'Ideal Home', 'Others', 'Your Potential'],
+                datasets: [{
+                    data: [35, 25, 20, 17, 3],
+                    backgroundColor: [
+                        '#ef4444',
+                        '#f59e0b',
+                        '#3b82f6',
+                        '#94a3b8',
+                        '#10b981'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'white'
+                        }
+                    }
+                }
+            }
+        });
+    }
+}
+
+// Calculator Functions
+function initializeCalculator() {
+    // Set initial values
+    updateCalculator();
+}
+
+function updateCalculator() {
+    const reviews = document.getElementById('reviewsSlider').value;
+    const ranking = document.getElementById('rankingSelect').value;
+    const investment = document.getElementById('investmentSlider').value;
+    
+    // Update display values
+    document.getElementById('reviewsValue').textContent = reviews;
+    document.getElementById('investmentValue').textContent = parseInt(investment).toLocaleString();
+    
+    // Calculate results
+    const baseLeads = 10;
+    const reviewMultiplier = 1 + (reviews / 50) * 0.5;
+    const rankingMultiplier = ranking === '1' ? 3 : ranking === '3' ? 2.5 : ranking === '5' ? 2 : 1.5;
+    const investmentMultiplier = investment / 5000;
+    
+    const leads = Math.round(baseLeads * reviewMultiplier * rankingMultiplier * investmentMultiplier);
+    const conversionRate = 15 + (reviews / 10) + (6 - ranking);
+    const customers = Math.round(leads * (conversionRate / 100));
+    const avgJobValue = 3500;
+    const revenue = customers * avgJobValue;
+    const roi = Math.round(((revenue - investment) / investment) * 100);
+    
+    // Update results
+    document.getElementById('leadsResult').textContent = leads;
+    document.getElementById('conversionResult').textContent = conversionRate + '%';
+    document.getElementById('customersResult').textContent = customers;
+    document.getElementById('revenueResult').textContent = '$' + revenue.toLocaleString();
+    document.getElementById('roiResult').textContent = roi + '%';
+    
+    // Update ROI color
+    const roiElement = document.getElementById('roiResult');
+    if (roi > 500) {
+        roiElement.style.color = 'var(--success)';
+    } else if (roi > 200) {
+        roiElement.style.color = 'var(--warning)';
+    } else {
+        roiElement.style.color = 'var(--danger)';
+    }
+}
+
+// Counter Animation
+function initializeCounters() {
+    const counters = document.querySelectorAll('[data-animate="counter"] .stat-number');
+    
+    const observerOptions = {
+        threshold: 0.5
     };
     
-    createInteractiveScores();
-
-    // Add keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            // Close any open modals or menus
-            document.querySelector('.nav-menu').classList.remove('mobile-active');
-        }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = parseInt(counter.dataset.target);
+                animateCounter(counter, target);
+                observer.unobserve(counter);
+            }
+        });
+    }, observerOptions);
+    
+    counters.forEach(counter => {
+        observer.observe(counter);
     });
+}
 
-    // Performance tracking simulation
-    console.log('Research Report loaded successfully');
-    console.log('Time to interactive:', performance.now().toFixed(2) + 'ms');
+function animateCounter(element, target) {
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        element.textContent = Math.round(current);
+    }, 30);
+}
+
+// Mobile Menu
+function initializeMobileMenu() {
+    const mobileMenuToggle = document.getElementById('mobileMenu');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Utility Functions
+function scrollToSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    if (section) {
+        const navHeight = document.querySelector('.report-nav').offsetHeight;
+        const targetPosition = section.offsetTop - navHeight - 20;
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+    }
+}
+
+function showMetricDetail(metric) {
+    // Show detailed modal or tooltip for each metric
+    alert(`Detailed analysis for ${metric} would appear here in a modal.`);
+}
+
+function showPhase(phaseNumber) {
+    // Update active phase
+    document.querySelectorAll('.timeline-phase').forEach(phase => {
+        phase.classList.remove('active');
+    });
+    document.querySelectorAll('.timeline-phase')[phaseNumber - 1].classList.add('active');
+    
+    // Update progress line
+    const progressLine = document.querySelector('.progress-line');
+    progressLine.style.height = `${(phaseNumber - 1) * 25}%`;
+}
+
+function playVideo() {
+    const modal = document.getElementById('videoModal');
+    modal.style.display = 'block';
+    // In a real implementation, you would load and play the video here
+}
+
+function closeVideo() {
+    const modal = document.getElementById('videoModal');
+    modal.style.display = 'none';
+    const video = document.getElementById('summaryVideo');
+    video.pause();
+}
+
+function scheduleCall() {
+    // In a real implementation, this would open a calendar booking widget
+    window.open('https://calendly.com/your-booking-link', '_blank');
+}
+
+function downloadReport() {
+    // In a real implementation, this would generate and download a PDF
+    window.print();
+}
+
+// Performance optimization - Debounce scroll events
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Apply debouncing to scroll events
+window.addEventListener('scroll', debounce(() => {
+    updateActiveNav();
+    updateProgressBar();
+    handleNavbarScroll();
+}, 10));
+
+// Add parallax effect to hero section
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const hero = document.querySelector('.hero-bg-animation');
+    if (hero) {
+        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+    }
 });
 
-// Add CSS for mobile menu and active states
-const style = document.createElement('style');
-style.textContent = `
-    .nav-link.active {
-        color: var(--primary-color);
-        font-weight: 600;
-    }
+// Add hover effects to cards
+document.querySelectorAll('.impact-card, .score-metric, .keyword-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-5px)';
+    });
     
-    .mobile-menu-toggle {
-        display: none;
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: var(--primary-color);
-        cursor: pointer;
-    }
-    
-    @media (max-width: 768px) {
-        .nav-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: white;
-            flex-direction: column;
-            padding: 1rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+    });
+});
+
+// Initialize timeline on load
+showPhase(1);
+
+// Print styles optimization
+window.addEventListener('beforeprint', () => {
+    // Expand all collapsed sections
+    document.querySelectorAll('.timeline-phase').forEach(phase => {
+        phase.classList.add('active');
+    });
+});
+
+window.addEventListener('afterprint', () => {
+    // Reset to first phase
+    showPhase(1);
+});
+
+// Easter egg - Konami code
+let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+let konamiIndex = 0;
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+            activateEasterEgg();
+            konamiIndex = 0;
         }
-        
-        .nav-menu.mobile-active {
-            display: flex;
-        }
+    } else {
+        konamiIndex = 0;
     }
-    
-    .copy-btn:hover {
-        color: var(--primary-color);
-    }
-`;
-document.head.appendChild(style);
+});
+
+function activateEasterEgg() {
+    alert('🎉 Congratulations! You found the secret. Use code "KONAMI" for 10% off your first month!');
+}
